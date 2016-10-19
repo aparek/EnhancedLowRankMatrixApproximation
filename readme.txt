@@ -11,7 +11,7 @@ This directory contains the following files
    the nuclear norm minimization (NNM).
          
 2. demo2.m
-   This file plota the penalty functions and their corresponding
+   This file plots the penalty functions and their corresponding
    threshold functions. 
        
 Contact: Ankit Parekh (ankit.parekh@nyu.edu)
