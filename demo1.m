@@ -4,6 +4,8 @@
 % A. Parekh and I. W. Selesnick
 % IEEE Signal Processing Letters, 2016.
 %
+% Note, for better results use the 'atan' penalty. 
+%
 % Last Edit: 2/21/2016
 % Ankit Parekh, NYU Tandon
 % ankit.parekh@nyu.edu
@@ -38,8 +40,8 @@ Y = M + sigma * randn(m, n);                      % Add AWGN to the clean matrix
 
 % Enhanced low-rank matrix approximation (ELMA) method
 ELMA.lam = 22.7*sigma;                            % Parameters for ELMA method
-ELMA.a = 0.6/ELMA.lam;        
-ELMA.S = firm(S, ELMA.lam, ELMA.a);               % ELMA Approximated singular value matrix
+ELMA.a = 0.99/ELMA.lam;        
+ELMA.S = thresh(S, ELMA.lam, ELMA.a,'atan');      % ELMA Approximated singular value matrix
 ELMA.X = U * ELMA.S * V';                         % ELMA Low-Rank Approximation
 
 % Nuclear norm minimization (NNM) method
@@ -50,14 +52,14 @@ NNM.X = U * NNM.S * V';                           % NNM Low-Rank Approximation
 %% Plot the singular values of the approximated matrices
 
 figure(1), clf
-plot(1:n, diag(S),'.-r',...                       % Noisy singular values
-     1:n, svd(M),'.-b',...                        % Original singular values
-     1:n, diag(ELMA.S),'.-k',...                  % ELMA approximated singular values
-     1:n, diag(NNM.S),'.-m')                      % NNM approximated singular values
+plot(1:n, diag(S),...                       % Noisy singular values
+     1:n, svd(M),...                        % Original singular values
+     1:n, diag(ELMA.S),...                  % ELMA approximated singular values
+     1:n, diag(NNM.S))                      % NNM approximated singular values
 xlabel('n')
 ylabel('n-th singular value')
 legend('Noisy singular values','True singular values',...
        'ELMA','Nuclear norm minimization (NNM)')
-   
+xlim([1 30])
 print -dpdf demo1
 
